@@ -8,7 +8,7 @@ async function handleRequest(request) {
 	if (url.pathname != '/video') return new Response('Not Found', { status: 404 });
 
 	// The URL of the video you want to proxy
-	const videoUrl = url.searchParams.get('url');
+	const videoUrl = decodeURIComponent(url.searchParams.get('url'));
 
 	if (!videoUrl)
 		return new Response(
@@ -43,6 +43,7 @@ async function handleRequest(request) {
 
 	// Add CORS headers to allow the video to be accessed from any origin
 	newResponse.headers.set('Access-Control-Allow-Origin', '*');
+	newResponse.headers.set('Access-Control-Allow-Headers', '*');
 
 	// Return the modified response
 	return newResponse;
